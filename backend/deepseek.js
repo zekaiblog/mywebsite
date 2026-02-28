@@ -17,45 +17,31 @@ export async function getBotReply(userMessage, conversationHistory = [], imageUr
   const messages = [
     { role: 'system', content: SYSTEM_PROMPT },
     ...conversationHistory.slice(-10).map((m) => {
-      const content = [];
+      let content = m.content;
       if (m.image_url) {
-        content.push({
-          type: 'image_url',
-          image_url: { url: m.image_url }
-        });
+        content = `[User shared an image: ${m.image_url}] ${m.content || ''}`.trim();
       }
-      content.push({
-        type: 'text',
-        text: m.content
-      });
       return {
         role: m.is_from_bot ? 'assistant' : 'user',
-        content: content.length === 1 ? content[0].text : content
+        content: content
       };
     })
   ];
 
   // Add current user message
-  const userContent = [];
+  let currentMessage = userMessage;
   if (imageUrl) {
-    userContent.push({
-      type: 'image_url',
-      image_url: { url: imageUrl }
-    });
+    currentMessage = `[User shared an image: ${imageUrl}] ${userMessage || ''}`.trim();
   }
-  userContent.push({
-    type: 'text',
-    text: userMessage
-  });
 
   messages.push({
     role: 'user',
-    content: userContent.length === 1 ? userContent[0].text : userContent
+    content: currentMessage
   });
 
   try {
     const completion = await client.chat.completions.create({
-      model: 'deepseek-chat', // Using text model for now, can be upgraded to vision model when available
+      model: 'deepseek-chat', // DeepSeek only supports text messages, not images
       messages,
       max_tokens: 500,
       temperature: 0.7,
