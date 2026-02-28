@@ -128,6 +128,43 @@ export default function Chat({ user, onLogout }) {
     loadSessionMessages(session.id);
   };
 
+  const clearAllHistory = () => {
+    if (!window.confirm('Are you sure you want to delete all chat history? This action cannot be undone.')) {
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+    fetch(`${API_BASE}/api/sessions`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(r => r.json())
+      .then(() => {
+        setSessions([]);
+        setCurrentSession(null);
+        setMessages([]);
+        setLoadingHistory(false);
+      });
+  };
+
+  const clearCurrentSession = () => {
+    if (!currentSession) return;
+
+    if (!window.confirm('Are you sure you want to clear all messages in this chat?')) {
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+    fetch(`${API_BASE}/api/messages/${currentSession.id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(r => r.json())
+      .then(() => {
+        setMessages([]);
+      });
+  };
+
   const handleImageSelect = (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
@@ -211,6 +248,14 @@ export default function Chat({ user, onLogout }) {
           <div className="chat-header-right">
             <button type="button" className="btn-new-chat" onClick={createNewChat}>
               New Chat
+            </button>
+            {currentSession && (
+              <button type="button" className="btn-clear-session" onClick={clearCurrentSession}>
+                Clear Chat
+              </button>
+            )}
+            <button type="button" className="btn-clear-all" onClick={clearAllHistory}>
+              Clear All History
             </button>
             <span className={`status ${connected ? 'online' : 'offline'}`}>
               {connected ? 'Online' : 'Connecting…'}

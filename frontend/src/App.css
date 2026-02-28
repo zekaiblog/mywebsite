@@ -239,6 +239,34 @@
   color: var(--text);
 }
 
+.btn-clear-session {
+  padding: 0.4rem 0.75rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.btn-clear-session:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.btn-clear-all {
+  padding: 0.4rem 0.75rem;
+  background: var(--error);
+  border: none;
+  color: white;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.btn-clear-all:hover {
+  background: #c53030;
+}
+
 .chat-messages {
   flex: 1;
   overflow-y: auto;

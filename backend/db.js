@@ -95,4 +95,14 @@ export function getMessagesForSession(sessionId, limit = 100) {
   return stmt.all(sessionId, limit);
 }
 
+export function clearAllSessionsForUser(userId) {
+  const stmt = db.prepare('DELETE FROM chat_sessions WHERE user_id = ?');
+  return stmt.run(userId);
+}
+
+export function clearMessagesForSession(sessionId) {
+  const stmt = db.prepare('DELETE FROM messages WHERE session_id = ?');
+  return stmt.run(sessionId);
+}
+
 export default db;

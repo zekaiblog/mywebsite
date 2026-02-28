@@ -121,6 +121,30 @@ app.get('/api/messages/:sessionId', (req, res) => {
   res.json({ messages, session });
 });
 
+// Clear all chat sessions for user
+app.delete('/api/sessions', (req, res) => {
+  const auth = req.headers.authorization?.replace('Bearer ', '');
+  const payload = verifyToken(auth);
+  if (!payload) return res.status(401).json({ error: 'Unauthorized' });
+
+  db.clearAllSessionsForUser(payload.userId);
+  res.json({ success: true });
+});
+
+// Clear messages from a specific session
+app.delete('/api/messages/:sessionId', (req, res) => {
+  const auth = req.headers.authorization?.replace('Bearer ', '');
+  const payload = verifyToken(auth);
+  if (!payload) return res.status(401).json({ error: 'Unauthorized' });
+
+  const sessionId = parseInt(req.params.sessionId);
+  const session = db.getChatSession(sessionId, payload.userId);
+  if (!session) return res.status(404).json({ error: 'Session not found' });
+
+  db.clearMessagesForSession(sessionId);
+  res.json({ success: true });
+});
+
 // Upload image
 app.post('/api/upload', upload.single('image'), (req, res) => {
   const auth = req.headers.authorization?.replace('Bearer ', '');
