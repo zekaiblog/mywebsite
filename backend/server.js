@@ -9,7 +9,7 @@ import cors from 'cors';
 import multer from 'multer';
 import { verifyToken } from './auth.js';
 import * as db from './db.js';
-import { getBotReply } from './deepseek.js';
+import { getBotReply } from './ai.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProduction = process.env.NODE_ENV === 'production';

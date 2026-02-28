@@ -1,13 +1,14 @@
 # My Website – Web Chat with AI Assistant
 
-A simple “web WeChat” style site: visitors can **register**, **log in**, and **chat**. Replies are powered by **DeepSeek** so your site has an automatic chatbot.
+A simple “web WeChat” style site: visitors can **register**, **log in**, and **chat**. Replies are powered by **Qwen** so your site has an automatic chatbot with vision capabilities.
 
 ## Features
 
 - **User registration** – username + password (stored securely with bcrypt)
 - **Login** – JWT-based sessions
 - **Real-time chat** – WebSocket (Socket.io) so messages appear instantly
-- **AI replies** – DeepSeek answers visitors; each user has their own conversation history
+- **AI replies** – Qwen answers visitors with support for images; each user has their own conversation history
+- **Image uploads** – Users can upload images and the AI can analyze them
 
 ## Quick start (local)
 
@@ -16,7 +17,7 @@ A simple “web WeChat” style site: visitors can **register**, **log in**, and
 ```bash
 cd mywebsite/backend
 cp .env.example .env
-# Edit .env: set JWT_SECRET and DEEPSEEK_API_KEY (see below)
+# Edit .env: set JWT_SECRET and QWEN_API_KEY (see below)
 npm install
 npm run dev
 ```
@@ -39,9 +40,9 @@ Frontend runs at **http://localhost:5173**. Open that URL and you can register, 
 |-------------------|-------------|
 | `PORT`            | Server port (default `3001`) |
 | `JWT_SECRET`      | Secret for signing JWTs (use a long random string in production) |
-| `DEEPSEEK_API_KEY` | API key from [DeepSeek Platform](https://platform.deepseek.com) |
+| `QWEN_API_KEY` | API key from [DashScope](https://dashscope.aliyun.com/) |
 
-Without `DEEPSEEK_API_KEY`, the bot will respond with a “not configured” message.
+Without `QWEN_API_KEY`, the bot will respond with a “not configured” message.
 
 ---
 
@@ -72,7 +73,7 @@ One server runs both the Node backend and the built frontend.
 3. **Set environment variables on the host**  
    - `NODE_ENV=production`  
    - `JWT_SECRET` – long random string  
-   - `DEEPSEEK_API_KEY` – from DeepSeek  
+   - `QWEN_API_KEY` – from DeepSeek  
    - `PORT` – if the host uses a fixed port (e.g. Render uses `PORT` automatically).
 
 4. **Domain / URL**  
@@ -144,8 +145,8 @@ mywebsite/
 
 ## Summary
 
-- **Local**: run backend and frontend as in “Quick start”; set `DEEPSEEK_API_KEY` and `JWT_SECRET` in `backend/.env`.  
-- **Online**: deploy backend (and optionally frontend) to a host, set `NODE_ENV=production`, `JWT_SECRET`, `DEEPSEEK_API_KEY`, and (if split) `FRONTEND_URL` / `VITE_API_URL`.  
+- **Local**: run backend and frontend as in “Quick start”; set `QWEN_API_KEY` and `JWT_SECRET` in `backend/.env`.  
+- **Online**: deploy backend (and optionally frontend) to a host, set `NODE_ENV=production`, `JWT_SECRET`, `QWEN_API_KEY`, and (if split) `FRONTEND_URL` / `VITE_API_URL`.  
 - **DeepSeek**: get an API key from [DeepSeek Platform](https://platform.deepseek.com) and add it to `.env` so the chatbot works.
 
 After that, anyone can visit your site, register, and chat with your DeepSeek-powered assistant.

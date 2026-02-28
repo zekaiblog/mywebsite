@@ -107,15 +107,68 @@
 /* Chat */
 .chat-container {
   width: 100%;
-  max-width: 640px;
+  max-width: 900px;
   height: 85vh;
   max-height: 700px;
   display: flex;
-  flex-direction: column;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
+}
+
+.chat-sidebar {
+  width: 200px;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  flex-shrink: 0;
+}
+
+.sessions-list {
+  padding: 1rem;
+}
+
+.sessions-list h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.session-item {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.session-item:hover {
+  background: var(--surface-hover);
+}
+
+.session-item.active {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.session-title {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.session-date {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-header {
@@ -156,6 +209,20 @@
 
 .status.offline {
   color: var(--text-muted);
+}
+
+.btn-new-chat {
+  padding: 0.4rem 0.75rem;
+  background: var(--accent);
+  border: none;
+  color: var(--bg);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.btn-new-chat:hover {
+  background: var(--accent-dim);
 }
 
 .btn-logout {
@@ -219,6 +286,13 @@
   word-break: break-word;
 }
 
+.message-image {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
 .message.user .message-bubble {
   background: var(--user-bubble);
   color: #fff;
@@ -231,15 +305,62 @@
   border-bottom-left-radius: 4px;
 }
 
+.image-preview {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.image-preview img {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.btn-remove-image {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--error);
+  color: white;
+  border: none;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
 .chat-input-wrap {
-  display: flex;
-  gap: 0.5rem;
   padding: 1rem;
   border-top: 1px solid var(--border);
   flex-shrink: 0;
 }
 
-.chat-input-wrap input {
+.input-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.btn-upload {
+  padding: 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.btn-upload:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.input-controls input {
   flex: 1;
   padding: 0.75rem 1rem;
   background: var(--bg);
@@ -249,12 +370,12 @@
   font-size: 1rem;
 }
 
-.chat-input-wrap input:focus {
+.input-controls input:focus {
   outline: none;
   border-color: var(--accent);
 }
 
-.chat-input-wrap input::placeholder {
+.input-controls input::placeholder {
   color: var(--text-muted);
 }
 

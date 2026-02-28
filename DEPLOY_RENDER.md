@@ -62,7 +62,7 @@ In your Web Service → **Environment** tab, add:
 |-----|--------|--------|
 | `NODE_ENV` | `production` | So the app serves the built frontend and uses production settings. |
 | `JWT_SECRET` | *(random string)* | Use a long random string, e.g. run `openssl rand -hex 32` and paste the result. **Do not share or commit this.** |
-| `DEEPSEEK_API_KEY` | *(your key)* | From [DeepSeek Platform](https://platform.deepseek.com). Required for the chatbot to reply. |
+| `QWEN_API_KEY` | *(your key)* | From [DashScope](https://dashscope.aliyun.com/). Required for the chatbot to reply. |
 
 Render sets `PORT` for you; your app already uses `process.env.PORT`, so you don’t need to add it.
 
