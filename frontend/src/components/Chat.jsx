@@ -14,6 +14,7 @@ export default function Chat({ user, onLogout }) {
   const [socket, setSocket] = useState(null);
   const [connected, setConnected] = useState(false);
   const [loadingHistory, setLoadingHistory] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const listRef = useRef(null);
   const fileInputRef = useRef(null);
 
@@ -165,6 +166,14 @@ export default function Chat({ user, onLogout }) {
       });
   };
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
   const handleImageSelect = (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
@@ -221,14 +230,28 @@ export default function Chat({ user, onLogout }) {
 
   return (
     <div className="chat-container">
-      <div className="chat-sidebar">
+      <button
+        type="button"
+        className="mobile-sidebar-toggle"
+        onClick={toggleSidebar}
+        aria-label="Toggle sidebar"
+      >
+        ☰
+      </button>
+
+      <div className={`sidebar-overlay ${sidebarOpen ? 'show' : ''}`} onClick={closeSidebar} />
+
+      <div className={`chat-sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sessions-list">
           <h3>Chat History</h3>
           {sessions.map((session) => (
             <div
               key={session.id}
               className={`session-item ${currentSession?.id === session.id ? 'active' : ''}`}
-              onClick={() => switchSession(session)}
+              onClick={() => {
+                switchSession(session);
+                closeSidebar(); // Close sidebar on mobile after selecting session
+              }}
             >
               <span className="session-title">{session.title}</span>
               <span className="session-date">
