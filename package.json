@@ -1,0 +1,12 @@
+{
+  "name": "mywebsite",
+  "private": true,
+  "description": "Web chat with DeepSeek bot",
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && NODE_ENV=production node server.js"
+  }
+}

@@ -1,0 +1,20 @@
+# Render Blueprint – deploy as one Web Service
+# See DEPLOY_RENDER.md for step-by-step setup.
+# Use this when your repo root is this folder (mywebsite). If your repo has
+# mywebsite as a subfolder, set Root Directory to "mywebsite" in the dashboard.
+
+services:
+  - type: web
+    name: mywebsite
+    runtime: node
+
+    buildCommand: npm run install:all && npm run build
+    startCommand: npm start
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DEEPSEEK_API_KEY
+        sync: false  # Set manually in Render dashboard
